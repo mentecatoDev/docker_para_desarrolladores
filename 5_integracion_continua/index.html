@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Integración continua - Docker para Desarrolladores</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Integraci\u00f3n continua";
+    var mkdocs_page_input_path = "5_integracion_continua.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Docker para Desarrolladores</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../1_introduccion/">Introducción</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../2_arquitecturas_de_microservicios/">Arquitecturas de Microservicios</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../3_construccion_de_imagenes/">Construcción de imágenes</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../4_desarrollo_con_contenedores/">Desarrollo con contenedores</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Integración continua</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#docker-hub">Docker Hub</a></li>
+    
+
+    <li class="toctree-l2"><a href="#optimizacion-de-docker-build">optimización de docker build</a></li>
+    
+
+    <li class="toctree-l2"><a href="#test-de-integracion-con-docker">Test de integración con Docker</a></li>
+    
+
+    <li class="toctree-l2"><a href="#otras-herramientas-de-integracion-continua">otras herramientas de integración continua</a></li>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../6_docker_en_produccion/">Docker en producción</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Docker para Desarrolladores</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Integración continua</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p>Integración continua</p>
+<p>a Integración Continua se refiere a la práctica de automatizar tareas de  modo que se ejecuten automáticamente cuando se produce un evento, por  ejemplo, una nueva versión de código en nuestro repositorio. Ejemplos de las tareas que pueden ser automatizadas son: compilación de  componentes, ejecución de pruebas unitarias, ejecución de pruebas de  integración, ejecución de pruebas de aceptación, obtención de métricas  de calidad de código… Algunos de los objetivos que persigue la  integración continua son:</p>
+<ul>
+<li>Facilitar la integración entre distintos los distintos componentes de nuestra aplicación.</li>
+<li>Automatizar la construcción de nuestra aplicación.</li>
+<li>Automatizar la ejecución de tests en la construcción de nuestra aplicación.</li>
+</ul>
+<p>La integración continua aporta aporta innumerables ventajas en el  objetivo de conseguir un software de alta calidad, algunas de las cuales son:</p>
+<ul>
+<li>Detectar rápidamente posibles conflictos entre desarrolladores.</li>
+<li>Garantizar el correcto funcionamiento de nuestra aplicación antes de desplegar una nueva versión.</li>
+<li>Agiliza la corrección de los errores detectados.</li>
+<li>Permite resolver problemas de integración a lo largo de todo el proceso de  desarrollo del software y no sólo al final del mismo, evitando  situaciones caóticas previas a la fecha de entrega.</li>
+</ul>
+<p>Aunque el concepto de integración continua es muy amplio, en este curso lo vamos a delimitar a:</p>
+<ul>
+<li><strong>Optimización de Docker Build</strong>: cómo utilizar la caché de Docker para acelerar el build de nuestras imágenes. </li>
+<li><strong>Test de Integración con Docker</strong>: cómo utilizar Docker para facilitar la automatización del testeo de nuestras aplicaciones.</li>
+</ul>
+<h2 id="docker-hub">Docker Hub</h2>
+<p>Docker Hub es el registro público de Docker. Viene a ser lo que es Github en el mundo <code>git</code>, pero en el mundo Docker.
+Permite configurar algunas tareas de integración continua, aunque está muy  enfocado a la automatización de construcción de imágenes de Docker.  Aunque hay muchas herramientas que permiten configurar tareas de  integración continua, en este curso vamos a utilizar Docker Hub por  varios motivos:</p>
+<ul>
+<li>Es una herramienta gratuita si generas imágenes públicas.</li>
+<li>Docker Hub es probablemente la herramienta más popular para distribuir  imágenes de Docker, y su conocimiento resulta muy conveniente.</li>
+<li>Aunque es una herramienta algo limitada, resulta suficiente para ilustrar las ideas que introducimos en este curso.</li>
+</ul>
+<p>En el vídeo adjunto se harán tres demos usando Docker Hub:</p>
+<ul>
+<li>Una breve introducción a Docker Hub y alguna de sus principales características.</li>
+<li>Como automatizar el build de imágenes.</li>
+<li>Cómo automatizar la ejecución de tests.</li>
+</ul>
+<h2 id="optimizacion-de-docker-build">optimización de docker build</h2>
+<p>Cuando estamos trabajando en nuestra máquina local, Docker dispone de las capas de todas las ejecuciones previas de <em>docker build</em> que hemos realizado. En otras palabras, cuando trabajamos en nuestra  máquina local la caché de Docker está inicializada, recuerda la  ejecución de instrucciones <em>docker build</em> anteriores, y como  hemos visto en lecciones anteriores, optimiza enormemente la generación  de imágenes. Sin embargo, esto no suele ser así en entornos de  integración continua, donde normalmente cada tarea de integración (ya  sea el build de una imagen o la ejecución de tests) se ejecuta en una  nueva máquina independiente creada para este fin, y destruída cuando la  tarea acaba. Esto es así porque reusar las mismas máquinas entre tareas  de integración continua puede conllevar la aparición de estados  indeseados en la máquina, o la acumulación de basura que terminará  saturando los recursos de dicha máquina. En consecuencia, cuando una  tarea de integración continua se ejecuta, es bastante frecuente que la  cache de Docker no esté inicializada, lo que implica que los tiempos  para construir nuestras imágenes pueden crecer enormemente. Esto es un  problema importante porque idealmente las tareas de integración continua deben ejecutar cuanto más rápido mejor.</p>
+<p>Por suerte Docker tiene una solución a este problema. Cuando ejecutamos un <em>docker build</em> podemos indicar que utilice la caché de una imagen ya creada. Dicho de otra manera, si estoy construyendo la imagen <code>openwebinars/docker-for-devs:latest</code>, puedo reusar la cache de la última versión de <code>openwebinars/docker-for-devs:latest</code> ejecutando estos commandos:</p>
+<pre><code class="bash">docker pull openwebinars/docker-for-devs:latest
+docker build -t openwebinars/docker-for-devs:latest --cache-from=openwebinars/docker-for-devs:latest 
+</code></pre>
+
+<h2 id="test-de-integracion-con-docker">Test de integración con Docker</h2>
+<p>El testeo de aplicaciones ha sido tradicionalmente tedioso ya que la  ejecución de nuestra aplicación requiere de la instalación de sus  dependencias, y además puede necesitar componentes externos como bases  de datos. Sabemos que Docker soluciona estos problemas, y que gracias a  la herramienta <em>docker-compose</em>, es prácticamente trivial el proceso de ejecución de una aplicación en local.</p>
+<p>Pues bien, estas ideas pueden ser aplicadas al proceso de testeo de una aplicación. Lo primero que tenemos que hacer es <em>dockerizar</em> nuestros scripts de tests, de tal manera que podamos ejecutarlos haciendo uso de <em>docker-compose</em> al igual que hacemos con cualquier otra imagen de Docker.</p>
+<p>El vídeo adjunto hace una demo de este proceso usando el directorio <code>docker-for-devs/e2e</code>.</p>
+<p>Este enfoque para la ejecución de tests basado en Docker y Docker Compose presenta las siguientes ventajas:</p>
+<ul>
+<li>Ligero: Docker es ligero, por lo que el fichero <em>docker-compose.yml</em> puede contener tantos servicios como sea necesario y podrá ser  ejecutado en una sola máquina. Esto permite la ejecución de entornos  complejos para pruebas de integración y aceptación.</li>
+<li>Portable:  gracias a que el proceso está basado en Docker y Docker es portable, la  ejecución de pruebas puede realizarse en cualquier máquina,  independientemente de su sistema operativo o el hardware interno.</li>
+<li>Inmutable: gracias a que Docker es inmutable, la imagen creada y validada por los  procesos de integración continua, va a correr de la misma manera en  nuestros servidores de producción.</li>
+</ul>
+<h2 id="otras-herramientas-de-integracion-continua">otras herramientas de integración continua</h2>
+<p>Existen números herramientas para automatizar el <em>build</em> y las pruebas de aplicaciones, algunas puedes instalarlas en tu infraestructura, como:</p>
+<ul>
+<li><a href="https://jenkins-ci.org/">Jenkins</a></li>
+<li><a href="https://www.atlassian.com/software/bamboo/">Bamboo</a></li>
+<li><a href="https://drone.io/">Drone.io</a></li>
+</ul>
+<p>Y otras funcionan bajo el modelo SaaS, como:</p>
+<ul>
+<li><a href="https://travis-ci.org/">Travis</a></li>
+<li><a href="https://circleci.com/">Circleci</a></li>
+</ul>
+<p>Como hemos visto en las lecciones anteriores, Docker ofrece su propia herramienta:</p>
+<ul>
+<li><a href="https://hub.docker.com/">Docker Hub</a></li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../6_docker_en_produccion/" class="btn btn-neutral float-right" title="Docker en producción">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../4_desarrollo_con_contenedores/" class="btn btn-neutral" title="Desarrollo con contenedores"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../4_desarrollo_con_contenedores/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../6_docker_en_produccion/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

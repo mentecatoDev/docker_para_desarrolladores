@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Docker en producción - Docker para Desarrolladores</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Docker en producci\u00f3n";
+    var mkdocs_page_input_path = "6_docker_en_produccion.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Docker para Desarrolladores</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../1_introduccion/">Introducción</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../2_arquitecturas_de_microservicios/">Arquitecturas de Microservicios</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../3_construccion_de_imagenes/">Construcción de imágenes</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../4_desarrollo_con_contenedores/">Desarrollo con contenedores</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../5_integracion_continua/">Integración continua</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Docker en producción</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#docker-en-produccion">Docker en producción</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#retos-que-introduce-docker">Retos que introduce Docker</a></li>
+        
+            <li><a class="toctree-l3" href="#gestion-de-docker-cluster">Gestión de Docker Cluster</a></li>
+        
+            <li><a class="toctree-l3" href="#conclusion">Conclusión</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Docker para Desarrolladores</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Docker en producción</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="docker-en-produccion">Docker en producción</h1>
+<p>Docker presenta enormes ventajas en entornos de producción debido a que nos  permite generar imágenes inmutables y portables que han sido validadas  en los procesos de integración continua. Además, el proceso de  distribución de imágenes es fácilmente automatizable gracias a la API  que implementa el demonio de Docker. Por último, gracias al aislamiento  entre contenedores, permite la combinación de microservicios en una  misma máquina para la consecución de diversos objetivos. Por ejemplo,  imagina una aplicación con una API pública que, entre otros, ofrece un  servicio de autenticación. Imaginemos otro componente que hace uso de la API pública para autenticar peticiones. Además de servidores dedicados a ofrecer la API pública, Docker facilita enormemente correr siempre el  segundo componente con un contenedor de API pública en la misma máquina  (y no visible públicamente). De esta manera, aunque nuestra API pública  sufra, por ejemplo, un ataque de denegación de servicio, el segundo  componente podrá seguir funcionando.</p>
+<p>En los próximos meses vamos a realizar un curso sobre cómo gestionar  Docker en producción, pero en esta lección daremos alunas pautas para  aquellos que quieran o necesiten adquirir conocimientos en este campo.</p>
+<h2 id="retos-que-introduce-docker">Retos que introduce Docker</h2>
+<p>Docker y otras tecnologías de contenedores no solucionan todos los problemas  que aparecen en una arquitectura basada en microservicios, es más, el  hecho de tener varios contenedores corriendo en la misma máquina hace  imposible el uso de servicios diseñador para el mundo de las máquinas  virtuales. Los principales problemas que quedan sin resolver por los  contenedores en un entorno de producción son:</p>
+<ul>
+<li>Service Discovery: debido a la cantidad de microservicios, estos  deben ser fáciles de localizar por los servicios que quieran contactar  con ellos. También debe ser sencillo (y seguro) conocer las credenciales para establecer dicha conexión.</li>
+<li>Balanceo de Carga: si un microservicio está corriendo en  varios contenedores, debe haber un endpoint único de acceso al  microservicio que balancee las peticiones entre los distintos  contenedores.</li>
+<li>Configuración de Red: algunos de estos servicios sólo pueden ser contactados por un subconjunto de nuestros microservicios. Este  problema suele solucionarse con la gestión de redes (y subredes) de tal  manera que servicios en redes diferentes no pueden verse el uno al otro.</li>
+<li>Persistencia: algunos servicios inevitablemente tienen  estado. Un contenedor puede ser fácilmente recreado en una nueva máquina si hay un fallo en el servidor donde se estaba ejecutando, pero lo  mismo no aplica a los datos persistentes que utilizaba dicho contenedor.</li>
+<li>Escalabilidad: nuestras herramientas de orquestación y  monitoreo debe escalar al número de contenedores desplegados en  producción.</li>
+<li>Personalización: la herramienta que utilicemos debe ser  fácilmente configurable con las sub-herramientas que sean más cómodas al equipo de operaciones.</li>
+<li>Logging y Monitoreo: debido a la gran cantidad de  contenedores desplegados en producción debemos utilizar herramientas de  monitoreo que nos faciliten identificar los contenedores donde se  producen fallos del sistema.</li>
+<li>Respuesta a fallo: es importante monitorizar nuestros  contenedores y desplegarlos en un nuevo servidor si hay una falla en la  máquina donde estaban ejecutando. </li>
+</ul>
+<p>Como hemos dicho, Docker no resuelve la mayoría de estas cuestiones,  ya que su principal objetivo es facilitar la creación de imágenes, su  distribución y su ejecución de una manera fiable. Es por esto que  existen hoy en día multitud de herramientas de <strong>gestión de clusters</strong> que vienen a solucionar en lo posible estos problemas.</p>
+<h2 id="gestion-de-docker-cluster">Gestión de Docker Cluster</h2>
+<h4 id="gestion-de-cluster-on-premise">Gestión de Cluster <em>On Premise</em></h4>
+<p>Conocemos como soluciones <em>on premise</em> aquellas que podemos instalar en nuestros propios servidores. Destacamos las siguientes:</p>
+<h5 id="kubernetes">Kubernetes</h5>
+<p>Es la solución <em>open source</em> de Google. Es probablemente la  solución más completa en la actualidad, con soluciones elegantes para  service discovery, respuesta a fallo y la configuración de la red.  Ofrece integraciones para utilizar volúmenes persistentes tanto en <em>Amazon Web Services</em> (AWS) como en <em>Google Compute Engine</em>,  así como con soluciones de monitoreo (<em>cAdvisor</em>) y logging (<em>elasticsearch</em>). Su desarrollo es muy activo y también ha desarrollado soluciones para  la gestión de secretos y la gestión de control de acceso. </p>
+<h5 id="docker-swarm">Docker Swarm</h5>
+<p>Es la solución <em>open source</em> de Docker. Ha alcanzado una versión <em>production ready</em>, pero todavía tiene algunos problemas de estabilidad. Su principal  ventaja es que su API es compatible con la API del Docker Engine, por lo que todas las herramientas desarrolladas para Docker, que tiene el  ecosistema más activo, funcionan directamente sobre Docker Swarm. En la  Dockercon de Copenhague de 2017 se anunció una integración transparente  entre Docker Swarm y Kubernetes.</p>
+<h4 id="gestion-de-cluster-saas">Gestión de Cluster <em>SaaS</em></h4>
+<p>Conocemos como soluciones <em>SaaS</em> aquellas que están disponibles como un servicio en internet. Destacamos las siguientes:</p>
+<h5 id="gce-google-container-engine">GCE (Google Container Engine)</h5>
+<p>Es la solución <em>SaaS</em> de Google e internamente utiliza  Kubernetes. Una vez desplegado el cluster de kubernetes, la interacción  del usuario es directamente con el cluster usando la herramienta de  línea de comandos de kubernetes. Por tanto, no ofrece grandes beneficios sobre kubernetes, más allá de facilitar su configuración con otros  servicios del <em>Google Cloud Platform</em> como el logging o las métricas. Dispone de registro propio (<em>Google Container Registry</em>).</p>
+<h5 id="ecs-ec2-container-service">ECS (EC2 Container Service)</h5>
+<p>Es la solución <em>SaaS</em> de AWS e internamente utiliza una  tecnología propietaria pero desarrollada sobre Docker. Se integra  perfectamente con otros servicios de AWS como <em>Elastic Block Storage</em>, <em>Cloud Trail</em>, <em>Cloud Trail Logs</em>, <em>Identity and Access Management</em> o <em>Elastic Load Balancer</em>. Quizás sea la más difícil de utilizar como usuario de Docker, pero las  integraciones con otros servicios de AWS le dan un plus frente a otras  soluciones. Dispone de registro propio (<em>EC2 Container Registry</em>). En el congreso <em>re:Invent 2017</em> se anunció <em>AWS Fargate</em>, que permite la ejecución de contenedores sin gestión de infrastructure, y que puede marcar un antes y un después en cómo los usuarios ejecutan  contenedores en producción.</p>
+<h2 id="conclusion">Conclusión</h2>
+<p>Hemos visto como las <strong>arquitecturas basadas en microservicios</strong> agilizan los procesos de desarrollo del software en equipos de ingeniería de mediano y gran tamaño. También hemos visto como <strong>Docker y los contenedores en general han dado un impulso definitivo a esta  metodología de desarrollo del software</strong>, pero que aún quedan muchos  problemas por resolver en un entorno de producción a gran escala. Es aquí donde aparecen las <strong>herramientas de gestión de clusters</strong>, que vienen a solucionar la mayoría (si no todos) de estos problemas. Es un campo en constante evolución y donde hay un rico y activo ecosistema de compañías colaborando en encontrar las mejores soluciones a estos problemas. </p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../5_integracion_continua/" class="btn btn-neutral" title="Integración continua"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../5_integracion_continua/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Desarrollo con contenedores - Docker para Desarrolladores</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Desarrollo con contenedores";
+    var mkdocs_page_input_path = "4_desarrollo_con_contenedores.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Docker para Desarrolladores</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../1_introduccion/">Introducción</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../2_arquitecturas_de_microservicios/">Arquitecturas de Microservicios</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../3_construccion_de_imagenes/">Construcción de imágenes</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Desarrollo con contenedores</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#4-desarrollo-con-contenedores">4 Desarrollo con contenedores</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#41-docker-compose-y-docker-composeyml">4.1 Docker Compose y docker-compose.yml</a></li>
+        
+            <li><a class="toctree-l3" href="#42-comandos-comunes-de-compose">4.2 Comandos comunes de compose</a></li>
+        
+            <li><a class="toctree-l3" href="#43-volumenes">4.3 Volúmenes</a></li>
+        
+            <li><a class="toctree-l3" href="#44-redes">4.4 Redes</a></li>
+        
+            <li><a class="toctree-l3" href="#45-casos-de-uso">4.5 Casos de uso</a></li>
+        
+            <li><a class="toctree-l3" href="#46-integracion-continua-con-docker">4.6 Integración Continua con Docker</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../5_integracion_continua/">Integración continua</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../6_docker_en_produccion/">Docker en producción</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Docker para Desarrolladores</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Desarrollo con contenedores</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="4-desarrollo-con-contenedores">4 Desarrollo con contenedores</h1>
+<h2 id="41-docker-compose-y-docker-composeyml">4.1 Docker Compose y docker-compose.yml</h2>
+<p>Docker compose es otro proyecto open source que permite definir  aplicaciones multi-contenedor de una manera sencilla y declarativa. Es una herramienta ideal para gestionar entornos de desarrollo, pero también para configurar procesos de integración continua.</p>
+<p><code>docker-compose</code> es una alternativa más cómoda al uso de los comandos <code>docker run</code> y <code>docker build</code>, que resultan un tanto tediosos cuando trabajamos con aplicaciones de  varios componentes. Con Docker Compose se define un fichero  docker-compose.yml que tiene esta forma (tomado de  docker-for-devs/auto-build/docker-compose.yml): </p>
+<pre><code>web:
+  build: .
+  ports:
+   - &quot;5000:5000&quot;
+  depends_on:
+   - redis
+redis:
+  image: redis
+</code></pre>
+
+<p>donde estamos definiendo una aplicación que se compone de un contenedor definido desde un <code>Dockerfile</code> local, que escucha en el puerto 5000, y que hace uso de <code>redis</code> como un servicio externo. Dada esta definición, la manera de levantar la aplicación es simplemente: </p>
+<pre><code class="bash">docker-compose up -d
+</code></pre>
+
+<p><code>docker-compose</code> acepta distintos comandos, una lista completa puede encontrarse <a href="https://docs.docker.com/compose/reference/">aquí</a>. </p>
+<h2 id="42-comandos-comunes-de-compose">4.2 Comandos comunes de compose</h2>
+<p>Destacar los siguientes puntos sobre <em>docker-compose</em></p>
+<ul>
+<li><code>docker-compose up -d</code> levanta la aplicación en modo demonio, <code>docker-compose up</code> la levanta en primer plano, mostrando los logs de los distintos contenedores. La ejecución sucesiva del comando <code>docker-compose up -d</code> sólo recrea los contenedores que hayan cambiado su imagen o su definición. <code>docker-compose up -d</code> no hace el build cada vez que es invocado de las imágenes locales. Si  deseas actualizar tu aplicación en base a los últimos cambios de tu  código, tendrás  que ejecutar <code>docker-compose up --build -d</code>. Un truco para mejorar este proceso es montar tu código como un volumen en el fichero <code>docker-compose.yml</code>, de tal manera que tu container siempre ve los últimos cambios en tu  código fuente. Si quieres levantar solo uno o varios de los servicios en un compose, puedes añadir su nombre, por ejemplo <code>docker-compose up -d redis</code>.</li>
+<li><code>docker-compose pull</code> actualiza las imágenes  definidas en el compose con la versión actual que haya en el registro.  En otras palabras, si alquien hace un push al registro, actualiza la  versión de estas imágenes en nuestra máquina. Con la opción <code>--parallel</code> hace el pull en paralelo. Como todo comando de <em>docker-compose</em> se puede hacer pull de un subconjunto de servicios: <code>docker-compose pull servicioA ServicioB</code>.</li>
+<li><code>docker-compose build</code> reconstruye las imágenes de los servicios que tengan una sección de <code>build</code> definida. Opciones interesantes son: <code>--no-cache</code> para invalidad la caché, <code>--pull</code> para hacer pull de las imágenes base y <code>--build-arg key=val</code> para pasar argumentos. Como todo comando de <em>docker-compose</em> se puede hacer build de un subconjunto de servicios: <code>docker-compose build servicioA ServicioB</code>.</li>
+<li><code>docker-compose push</code> pushea al registro la versión local de las imágenes con una sección de <code>build</code> definida. Como todo comando de <em>docker-compose</em> se puede hacer pull de un subconjunto de servicios: <code>docker-compose push servicioA ServicioB</code>.</li>
+<li><code>docker-compose run</code> ejecuta un contenedor de uno de los servicios definido en el compose. La diferencia principal con <code>docker-compose up</code> es que permite definir el comando a ejecutar, así como otra información de contexto como variables de entorno, el <code>entrypoint</code>, volúmenes, el directorio de trabajo… Es uno de los comandos más útil  para el entorno del desarrollador. Por ejemplo, podemos definir un  servicio en nuestro <em>docker-compose.yml</em> con todas las dependencias necesarios para ejecutar nuestros comandos de desarrollo. Haciendo uso de <code>docker-compose run</code> podemos ejecutar comandos aleatorios en ese entorno, evitando la  necesidad de instalar todas las dependencias del entorno en la máquina  actual. El caso más común es tener un servicio para ejecutar tests, como veremos más adelante, pero podríamos tener para cualquier tipo de  tarea.</li>
+<li><code>docker-compose rm</code> elimina los contenedores y otros recursos como redes, creados a partir de un compose.</li>
+</ul>
+<p><em>docker-compose</em> permite definir prácticamente todos los flags que soportan tanto el comando <em>docker run</em> como el <em>docker build</em>, pero <em>docker-compose</em> es mucho más fácil de utilizar. Las opciones más comunes son:</p>
+<ul>
+<li><em>build</em>: para indicar que el container se construye desde un Dockerfile local. Puede tener subcampos como <code>context</code>, <code>dockerfile</code>, <code>cache_from</code> o <code>args</code>.</li>
+<li><em>image</em>: para indicar que el container corre un imagen remota. También indica el nombre de la imagen que se crea si hay un campo <code>build</code>.</li>
+<li><em>command</em>: para redefinir el comando que ejecuta el container en lugar del comando definido en la imagen.</li>
+<li><em>environment</em>: para definir variables de entorno en el contenedor. Se pueden pasar haciendo referencia a un fichero usando la propiedad <em>env_file</em>. Si la variable no tiene un valor dado, su valor se cogerá del entorno de shell que ejecuta el <code>docker-compose up</code>, lo que puede ser útil para pasar claves, por ejemplo.</li>
+<li><em>depends_on</em>: para definir relaciones entre contenedores.</li>
+<li><em>ports</em>: para mapear los puertos donde el contenedor acepta conexiones.</li>
+</ul>
+<p><a href="https://docs.docker.com/compose/compose-file/">Aquí</a> tenéis una lista completa y actualizada de las opciones que permite <em>docker-compose</em>.</p>
+<h2 id="43-volumenes">4.3 Volúmenes</h2>
+<p>Cuando un contenedor es eliminado, la información contenida en él desaparece.  Para evitar este problema y que los datos generados en el interior de un contenedor no se eliminen cuando el contenedor termina podemos hacer uso de volúmenes de datos (<em>data volume</em>). Un volumen es un directorio dentro del contenedor que se asocia con un directorio del host, por lo que persiste a la finalización del contenedor. Un contenedor puede tener varios volúmenes, y un mismo volumen puede  montarse en varios contenedores para compartir información.</p>
+<h4 id="431-volumenes-de-datos">4.3.1 Volúmenes de Datos</h4>
+<p>Los volúmenes de datos tienen las siguientes características:</p>
+<ul>
+<li>Cuando borramos el contenedor, no se elimina el volumen asociado.</li>
+<li>Nos permiten guardar e intercambiar información entre contenedores.</li>
+<li>No son gestionados por los storage drivers, por lo que las operaciones de entrada / salida son mucho más eficientes.</li>
+</ul>
+<p>Los volúmenes de datos tienes su propia interfaz con la línea de comandos de <em>docker</em>:</p>
+<ul>
+<li><em>docker volume create</em>: crea un nuevo volumen de datos.</li>
+<li><em>docker volume ls</em>: muestra los volúmenes de datos de nuestra máquina.</li>
+<li><em>docker inspect</em>: devuelve información relativa a un volumen.</li>
+<li><em>docker volume rm</em>: elimina un volumen de datos. También se pueden eliminar automáticamente al eliminar un contenedor si ejecutamos <code>docker rm -f</code>.</li>
+</ul>
+<p>Si hacemos un <code>docker inspect</code> de un contenedor con volúmenes asociados esta información aparece en el campo <code>Mounts</code>.
+Por último podemos comprobar que aunque borremos el contenedor, el volumen no se borra.</p>
+<h4 id="432-volumenes-del-host">4.3.2 Volúmenes del Host</h4>
+<p>Una aplicación particular de los volúmenes es la posibilidad de  montar en el contenedor un directorio ya existente en el host. En este  caso hay que tener en cuenta que si el directorio de montaje del  contenedor ya existe, no se borra su contenido, simplemente se monta  encima. Veamos un ejemplo:</p>
+<pre><code>$ docker run -it -v `pwd`:/data alpine sh
+# cd data
+# ls
+</code></pre>
+
+<h4 id="433-gestion-de-volumenes-con-docker-compose">4.3.3 Gestión de Volúmenes con <em>docker-compose</em></h4>
+<p>El siguiente ejemplo ilustra la gestión de volúmenes con <em>docker-compose</em>:</p>
+<pre><code>version: '3.4'
+services:
+  mysql:
+    image: mysql
+    volumes:
+      - mysql:/var/lib/mysql
+      - logs:/var/log/mysql
+      - /etc:/etc
+  mysql:
+    image: log-analizer
+    volumes:
+      - logs:/var/log:ro
+volumes:
+  data:
+  logs:
+</code></pre>
+
+<h2 id="44-redes">4.4 Redes</h2>
+<p>Docker nos permite crear diferentes redes virtuales para nuestras necesidades, ya bien para unir o segmentar diferentes contenedores. De esta manera,  podemos separar contenedores por seguridad en redes diferentes, o  unirlos en la misma por conveniencia o por conectar sus servicios entre  sí.</p>
+<p>Por defecto, Docker nos ofrece tres tipos de redes diferentes. La  primera, bridge, es donde arrancarían todos nuestros contenedores por  defecto. Es una red que crea un puente entre la interfaz de red del  contenedor que arrancamos y una interfaz de red virtual que se crea en  nuestro equipo cuando instalamos Docker. La siguiente sería host. Host  lo que hace es copiar la configuración de red del host, es decir, del  servidor o máquina donde está Docker en el contenedor que estamos  arrancando. Si arrancamos un contenedor aquí y ejecutamos la revisión de la configuración de red, veremos que es la misma que la de la máquina  en la que lo estamos corriendo. Y después tenemos la red none, que  utiliza el driver null, que lo que hace es eliminar toda la  configuración de red de nuestro contenedor. Si creamos un contenedor  aquí, solo tendremos loopback, solo tendremos la dirección 127.0.0.1, y  no podremos conectar ningún sitio más.</p>
+<p>Cuando instalamos Docker, veremos que nos crea una interfaz llamada  docker0. Tiene una dirección IP privada, probablemente esta, si no da  colisión con ninguna otra dirección IP que tengáis configurada. Y cuando creáis algún tipo de contenedor que se conecta a la red bridge, lo que  hace es recibir por DHCP una dirección IP de este rango. Podéis conectar a través de él. Todos vuestros contenedores harán NAT a través de esta  IP, y a través de la IP de salida de la máquina host o servidor en la  que tenéis Docker instalado. Esta es vuestra red por defecto. De la  misma manera, podéis conectar desde aquí a través de esta interfaz y por esta dirección IP a las direcciones IP de los contenedores que tenéis  corriendo en esta red.</p>
+<p>Esta red bridge no es la única que podéis tener, podéis crear más  para separar vuestros contenedores en diferentes redes. Para ello,  tendréis que ejecutar el siguiente comando: “docker network create”.  Tenéis que elegir el driver del tipo de red que queréis crear. Lo más  probable es que sea una red bridge. Y el nombre de la red. Veréis dos  cosas, una que tenemos una red nueva con el nombre red1, driver bridge y un identificador. Otra, que si hacemos un ifconfig, vemos también que  tenemos una interfaz virtual de red nueva en la que tenemos las siglas  “br” de bridge y la ID de nuestra red. Si vemos esa interfaz en  concreto, vemos que tenemos una nueva dirección IP. Dentro de este rango de red, aparecerán todos los contenedores que nosotros ejecutemos en  red1. Y tanto red1 como bridge serán redes separadas. Los contenedores  que tengamos en bridge, la red bridge por defecto, y los contenedores  que tengamos en red1, la otra red bridge que hemos creado no se podrán  comunicar entre sí.</p>
+<p>Aparte, todo lo que arranquéis con Docker Compose, tendrá una red  privada para él. Docker Compose creará una red cada vez que levantéis  una infraestructura completa. Como veis, es bastante sencillo manejar  las redes de Docker. Podéis segmentar todas las aplicaciones que  corráis, por seguridad o por el sistema que utilicéis para conectarlas.  Por último, podéis usar <em>docker-compose</em> para crear nuevas redes o lanzar los contenedores en redes específicas.</p>
+<pre><code>version: '3.4'
+
+services:
+  proxy:
+    image: busybox
+    networks:
+      - outside
+  app:
+    image: busybox
+    networks:
+      - default
+      - inside
+
+networks:
+  outside:
+    external: true
+  default:
+  inside:
+     driver: bridge
+    enable_ipv6: true
+</code></pre>
+
+<p>Las redes tienen su propia interfaz con la línea de comandos de <em>docker</em>:</p>
+<ul>
+<li><em>docker network create</em>: crea una nueva red.</li>
+<li><em>docker network ls</em>: muestra las redes de nuestra máquina.</li>
+<li><em>docker inspect</em>: devuelve información relativa a una red.</li>
+<li><em>docker network rm</em>: elimina una red.</li>
+</ul>
+<h2 id="45-casos-de-uso">4.5 Casos de uso</h2>
+<p>A continuación destacamos algunos casos de uso comunes usando <em>docker-compose</em>.</p>
+<h5 id="451-service-discovery">4.5.1 Service Discovery.</h5>
+<p>Por defecto, <em>docker-compose</em> crea una red para correr los servicios definidos en el fichero <em>docker-compose.yml</em> del tipo <em>bridge</em> y con el nombre del directorio actual. Dentro de dicha red, los  contenedores son accesibles con el nombre del servicio. En el vídeo  podemos ver una demo.</p>
+<h5 id="452-variables-de-entorno">4.5.2 Variables de Entorno.</h5>
+<p>En los valores de todos y cada uno de los campos del  fichero <em>docker-compose.yml</em> podemos hacer uso de la notación <code>${VERSION:-value}</code>, para tomar el valor de la variable <code>$VERSION</code>, o el valor <code>value</code> si la variable <code>$VERSION</code> no está definida. Por ejemplo, podríamos usarlo para parametrizar la versión de go que queremos usar:</p>
+<pre><code>example:
+    image: golang:${GO_VERSION:-1.9}
+    command: go test ./...
+</code></pre>
+
+<h5 id="453-montar-directorio-de-trabajo">4.5.3 Montar Directorio de Trabajo.</h5>
+<p>Aunque el proceso de hacer <em>build</em> de una imagen está muy  optimizado gracias al uso de la caché de Docker, aunque solo sea para  mandar el contexto a la api de Docker, suele tardar algunos segundos  como poco. Por tanto, construir una imagen de Docker para cambio de  código que hagamos puede resultar ineficiente.</p>
+<p>La solución es es montar el directorio de trabajo actual el  contenedor que estemos ejecutando. Por ejemplo, el siguiente servicio  corre los tests de una aplicación Go sin necesidad de construirlo en  cada ejecución:</p>
+<pre><code>  test:
+    image: golang:1.9
+    working_dir: /go/src/app
+    volumes:
+      - ${PWD}:/go/src/app
+    command: go test ./...
+</code></pre>
+
+<h5 id="454-montar-docker-socket">4.5.4 Montar Docker Socket</h5>
+<p>Otro caso muy común es cuando necesitamos que un contenedor acceda a  la API de Docker. Una solución que nosotros no recomendamos es el uso de <em>Docker in Docker</em> (<em>DinD</em>), un contenedor que necesita correr en modo privilegiado y que puede crear contenedores dentro del. <em>DinD</em> no es del todo estable, nosotros recomendamos usar el mismo docker que  está corriendo en el host. Para ello, nuestro contenedor solo necesitará tener la línea de comandos de Docker instalada, y montar el socket  donde Docker publica su api, <code>/var/run/docker.sock</code>. Como ejemplo, el siguiente servicio lista los contenedores del host:</p>
+<pre><code class="yaml">  docker:
+    image: docker:17.10
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    entrypoint: docker
+    command: ps
+</code></pre>
+
+<h5 id="455-aplicacion-django-con-celery-y-beat">4.5.5 Aplicación Django, con celery y beat</h5>
+<p>El siguiente ejemplo muestra el <em>docker-compose.yml</em> de una aplicación Django, integrada con <em>celery</em> y con un <em>beat</em> para ejecutar tareas periódicas:</p>
+<pre><code>version: '3.4'
+
+services:
+  api:
+    image: app
+    build: .
+    command: gunicorn -b 0.0.0.0:80 -w 8 app.wsgi
+
+  worker:
+    image: app
+    entrypoint: celery -A app 
+    command: worker -c 8 -P prefork -O fair
+
+  beat:
+    image: app
+    entrypoint: celery -A app 
+    command: beat
+</code></pre>
+
+<p>Como vemos, en este caso estamos usando la misma imagen de Docker para los tres servicios. Este es un ejemplo  donde puede resultar conveniente usar la misma imagen para distintos  servicios. Es verdad que estamos instalando alguna dependencia no  estrictamente necesaria, para las dependencias de los tres componentes  son muy parecidas, y todo parece más sencillo de gestionar si tenemos  una sola imagen. Además, el uso de la caché hará que los workflows de  desarrollo sean más eficientes.</p>
+<h5 id="456-importar-compose-file">4.5.6 Importar compose file</h5>
+<p>Por defecto Docker Compose toma como entrada dos ficheros, <em>docker-compose.yml</em> y otro opcional, <em>docker-compose.override.yml</em>. Se supone que <em>docker-compose.yml</em> es la configuración base, mientras que <em>docker-compose.override.yml</em> redefine esos servicios para un entorno de desarrollo local, o incluso  crear nuevos servicios. Cuando un servicio está definido en ambos  ficheros, sus campos se mazclan. Las reglas para mezclar estos dos  ficheros son bastante intuitivas, para una explicación detallada del  cómo se mezclan ambos ficheros podéis acceder <a href="https://docs.docker.com/compose/extends/#adding-and-overriding-configuration">aquí</a>. Ese es el comportamiento por defecto, pero podemos añadir más <em>compose files</em> con la opción <code>-f</code>. Docker Compose mezcla estos ficheros en el orden en que aparecen en el comando. </p>
+<p>Como ejemplo tenemos el siguiente <em>docker-compose.yml</em>:</p>
+<pre><code>web:
+  image: app
+  depends_on:
+    - db
+db:
+  image: postgres:latest
+</code></pre>
+
+<p>y definir un <em>docker-compose.override.yml</em> para desarrollo:</p>
+<pre><code>web:
+  build: .
+  volumes:
+    - '.:/code'
+  ports:
+    - 8883:80
+  environment:
+    DEBUG: 'true'
+
+db:
+  command: '-d'
+  ports:
+    - 5432:5432
+</code></pre>
+
+<p>y un <em>docker-compose.prod.yml</em> para producción:</p>
+<pre><code>web:
+  ports:
+    - 80:80
+  environment:
+    PRODUCTION: 'true'
+</code></pre>
+
+<h5 id="457-extender-un-servicio">4.5.7 Extender un Servicio.</h5>
+<p>También podemos crear un servicio que extiende a otro. Por ejemplo,  podemos re-escribir el compose de la aplicación Django anterior como:</p>
+<pre><code>  worker:
+    image: app
+    entrypoint: celery -A app 
+    command: worker -c 8 -P prefork -O fair
+
+  beat:
+    extends: worker
+    command: beat
+</code></pre>
+
+<h2 id="46-integracion-continua-con-docker">4.6 Integración Continua con Docker</h2>
+<p>La Integración Continua se refiere a la práctica de automatizar  tareas de modo que se ejecuten automáticamente cuando se produce un  evento, por ejemplo, una nueva versión de código en nuestro repositorio. Ejemplos de las tareas que pueden ser automatizadas son: compilación de componentes, ejecución de pruebas unitarias, ejecución de pruebas de  integración, ejecución de pruebas de aceptación, obtención de métricas  de calidad de código… Algunos de los objetivos que persigue la  integración continua son:</p>
+<ul>
+<li>Facilitar la integración entre distintos los distintos componentes de nuestra aplicación.</li>
+<li>Automatizar la construcción de nuestra aplicación.</li>
+<li>Automatizar la ejecución de tests en la construcción de nuestra aplicación.</li>
+</ul>
+<p>La integración continua aporta aporta innumerables ventajas en el  objetivo de conseguir un software de alta calidad, algunas de las cuales son:</p>
+<ul>
+<li>Detectar rápidamente posibles conflictos entre desarrolladores.</li>
+<li>Garantizar el correcto funcionamiento de nuestra aplicación antes de desplegar una nueva versión.</li>
+<li>Agiliza la corrección de los errores detectados.</li>
+<li>Permite resolver problemas de integración a lo largo de todo el proceso de  desarrollo del software y no sólo al final del mismo, evitando  situaciones caóticas previas a la fecha de entrega.</li>
+</ul>
+<p>Aunque el concepto de integración continua es muy amplio, en este curso lo vamos a delimitar a:</p>
+<ul>
+<li><strong>Optimización de Docker Build</strong>: cómo utilizar la caché de Docker para acelerar el build de nuestras imágenes. </li>
+<li><strong>Test de Integración con Docker</strong>: cómo utilizar Docker para facilitar la automatización del testeo de nuestras aplicaciones.</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../5_integracion_continua/" class="btn btn-neutral float-right" title="Integración continua">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../3_construccion_de_imagenes/" class="btn btn-neutral" title="Construcción de imágenes"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../3_construccion_de_imagenes/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../5_integracion_continua/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

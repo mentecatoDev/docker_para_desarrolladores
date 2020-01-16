@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Arquitecturas de Microservicios - Docker para Desarrolladores</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Arquitecturas de Microservicios";
+    var mkdocs_page_input_path = "2_arquitecturas_de_microservicios.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Docker para Desarrolladores</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../1_introduccion/">Introducción</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Arquitecturas de Microservicios</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#2-arquitecturas-de-microservicios">2. Arquitecturas de Microservicios</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#21-arquitecturas-soa">2.1 Arquitecturas SOA</a></li>
+        
+            <li><a class="toctree-l3" href="#22-microservicios">2.2 Microservicios</a></li>
+        
+            <li><a class="toctree-l3" href="#23-relacion-entre-docker-y-microservicios">2.3 Relación entre Docker y Microservicios</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../3_construccion_de_imagenes/">Construcción de imágenes</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../4_desarrollo_con_contenedores/">Desarrollo con contenedores</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../5_integracion_continua/">Integración continua</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../6_docker_en_produccion/">Docker en producción</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Docker para Desarrolladores</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Arquitecturas de Microservicios</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="2-arquitecturas-de-microservicios">2. Arquitecturas de Microservicios</h1>
+<p>El concepto de microservicios tiene sus orígenes en la <strong>arquitectura SOA</strong>  (Service Oriented Architecture). SOA se basa en el antiguo principio de  “<strong>divide y vencerás</strong>”, y sostiene un <strong>modelo distribuido</strong> para el desarrollo de aplicaciones frente a soluciones clásicas más monolíticas. Es muy difícil pensar en Microservicios y no tener asociada la idea de Contenedores, si bien, la relación no se produce también extrictamente a la inversa; existen casos de uso de Contenedores perfectamente operativos que carecen de la arquitectura de microservicios.</p>
+<ul>
+<li>Contenidos</li>
+<li>Arquitecturas SOA</li>
+<li>Microservicios: definición</li>
+<li>Relación entre Docker y Microservicios</li>
+</ul>
+<h2 id="21-arquitecturas-soa">2.1 Arquitecturas SOA</h2>
+<p>Una arquitectura basada en SOA debe seguir una serie de <strong>principios</strong> para ser exitosa. Estos principios son: </p>
+<ul>
+<li>Cada servicio debe ofrecer un <strong>contrato para conectarse con él</strong>. Un caso muy común es un servicio que ofrece una <strong>API REST</strong>. Dicha API debe siempre mantener compatibilidad con versiones anteriores, o gestionar versiones de sus <em>endpoints</em> cuando se producen incompatibilidades, pero es fundamental no romper el contrato con otros servicios.</li>
+<li>Cada servicio debe <strong>minimizar las dependencias con el resto</strong>. Para esto es fundamental acertar con el <em>scope</em> (alcance) de un servicio. Una indicación de que el <em>scope</em> no es el adecuado es cuando se producen dependencias circulares entre los servicios.</li>
+<li>Cada servicio debe <strong>abstraer su implementación</strong>. Para el resto de  servicios debe ser transparente si un servicio usa un backend u otro  para la base de datos o si ha hecho una nueva release.</li>
+<li>Los servicios deben diseñarse para <strong>maximizar su reutilización</strong> dado que la reutilización de componentes es una de las ventajas de una arquitectura SOA.</li>
+<li>Cada servicio tiene que tener un <strong>ciclo de vida independiente</strong>, desde su diseño hasta su implantación en los entornos de ejecución.</li>
+<li>La <strong>localización física</strong> de donde corre un servicio debe ser <strong>transparente</strong> para los servicios que lo utilizan.</li>
+<li>En lo posible, los servicios deben <strong>evitar mantener estado</strong>.</li>
+<li>Es importante mantener la <strong>calidad de los servicios</strong>; deben estar <strong>bien testados</strong>. Un servicio con continuas regresiones puede afectar a la calidad final  percibida por el resto de servicios que hacen uso de él.</li>
+</ul>
+<h2 id="22-microservicios">2.2 Microservicios</h2>
+<p>Teniendo en cuenta estos principios, el concepto de microservicios es un poco la manera que se ha puesto de moda para referirse a las  arquitecturas SOA, pero incidiendo más aún en que <strong>la funcionalidad de dichos servicios debe ser la mínima posible</strong>. Una medida bastante extendida es que un microservicio es un componente  que <strong>debería ser desarrollable en unas dos semanas</strong>.</p>
+<p>Las ventajas de una arquitectura basada en microservicios son las siguientes: </p>
+<ul>
+<li>Son <strong>componentes pequeños</strong> que agilizan los procesos de desarrollo de  software y son <strong>fáciles de abordar</strong> por un equipo de desarrolladores.</li>
+<li>Son <strong>servicios independientes</strong>, si un microservicio falla no debería afectar a los demás.</li>
+<li>El <strong>despliegue</strong> de un microservicio a producción es <strong>más sencillo</strong> que el de una aplicación monolítica.</li>
+<li>Los microservicios son <strong>altamente reutilizables</strong>.</li>
+<li>Los microservicios son <strong>más fáciles de externalizar</strong>.</li>
+</ul>
+<h2 id="23-relacion-entre-docker-y-microservicios">2.3 Relación entre Docker y Microservicios</h2>
+<ul>
+<li>El <strong>despliegue</strong> de un microservicio suele ser es más sencillo que el de una aplicación monolítica debido a su mayor sencillez y sus menores dependencias. </li>
+<li>Por otra parte, los microservicios <strong>agilizan los procesos de desarrollo del software</strong> permitiendo casos de uso donde podemos hacer varios despliegues de distintos microservicios al día.</li>
+</ul>
+<p>Es por tanto casi <strong>imposible concebir</strong> una arquitectura basada en <strong>microservicios</strong> <strong>sin la automatización</strong> de los procesos de integración y <strong>despliegue continuo</strong>.
+- Ésta es la principal relación entre Docker y los microservicios ya que  <strong>Docker es una herramienta excepcional para la automatización</strong> de estas  tareas. Docker simplifica la automatización de construir una imagen,  distribuirla y ejecutarla en cualquier máquina independientemente de la infraestructura. Esto significa que podemos construir una imagen en nuestros entornos de integración continua, correr nuestras pruebas contra ella, distribuirla en nuestro servidores de producción y por  último, ejecutarla en un contenedor. Y todo esto ejecutando simplemente  unos cuantos comandos de docker. </p>
+<p>Dicho esto, <strong>una arquitectura de microservicios es sólo un modelo de desarrollo de software</strong> que mal aplicado puede traer enormes quebraderos  de cabeza.</p>
+<ul>
+<li>Los microservicios adquieren más importancia cuando tenemos <strong>equipos de ingeniería muy grandes</strong>, que interesa dividir en subgrupos y  cada uno de ellos se encargue de uno (o unos pocos) microservicios.</li>
+<li>Además, el proceso de <strong>migrar</strong> una arquitectura monolítica a una  arquitectura basada en microservicios debe ser planeado con cautela.</li>
+<li>Se  recomienda transferir un trozo de lógica a un sólo microservicio a la vez, ya que una arquitectura basada en microservicios puede implicar un cambio de las herramientas utilizadas para el despliegue, monitoreo y sistemas de logging de nuestras aplicaciones.</li>
+</ul>
+<p><em>Nos gustaría destacar que <strong>Docker se adapta</strong> perfectamente a una arquitectura basada en <strong>microservicios</strong>, pero sería <strong>posible tener una arquitectura basada en microservicios sin usar contenedor</strong>, y por supuesto, es perfectamente <strong>posible usar Docker en una arquitectura más monolítica o no basada en microservicios</strong>.</em></p>
+<p>Imaginemos el caso de una <strong>aplicación legacy monolítica</strong>. Solo por el hecho de meter esta aplicación dentro de un contenedor, tal y como es, sin cambios en su código fuente, nos vamos a favorecer de muchas de las características de docker, como son:</p>
+<ul>
+<li>Facilidad de <strong>levantar</strong> entornos locales de desarrollo</li>
+<li><strong>Portabilidad</strong> para correr nuestro contenedor en un Mac, en un Ubuntu, en integración continua o en un servidor de producción</li>
+<li>Facilidad para <strong>distribuir</strong> las imágenes de nuestra aplicación</li>
+</ul>
+<p>Dicho de otra manera:</p>
+<blockquote>
+<p>No es necesario modificar nuestras aplicaciones de toda la vida para adaptarlas a Docker, Docker se adapta a nuestras aplicaciones tal y como son</p>
+</blockquote>
+<p>Hay un <strong>conjunto de buenas prácticas</strong> para seguir una arquitectura basada en microservicios, pero solo son eso,  buenas prácticas que dependiendo del contexto conviene o no aplicar, si no serían axiomas de desarrollo.</p>
+<p>Mostramos esta idea en la siguiente figura:</p>
+<p align = "center">
+<img src="0201.png">
+</p>
+
+<ul>
+<li>Parte izquierda<ul>
+<li><strong>Aplicación monolítica</strong> corriendo en un host con cuatro procesos principales: <code>systemd</code>, <code>nginx</code>, un proceso <code>python</code> y un proceso <code>node.js</code>.</li>
+</ul>
+</li>
+<li>Parte central</li>
+<li>El proceso de <strong>dockerizar</strong> sería construir una imagen de docker con la misma arquitectura de procesos<ul>
+<li>Esto nos permite hacer <code>push</code> y <code>pull</code> de esta imagen de una manera muy sencilla, y correrla en cualquier entorno de ejecución con total garantía.</li>
+</ul>
+</li>
+<li>Parte derecha</li>
+<li>Más  tarde, podemos <strong>separar cada proceso en su propio microservicio</strong>, que sería la parte de la derecha, donde cada proceso corre en un contenedor independiente.</li>
+</ul>
+<p>Lo que se quiere destacar es que la fase de <strong>dockerizar</strong>, aunque luego no se adopte una arquitectura de microservicios, <strong>es de enorme valor en sí mismo</strong>. También que <strong>saltarse este paso</strong> y tratar de pasar de la arquitectura de la derecha a la de la izquierda en un solo paso suele ser una <strong>garantía para buscar problemas</strong>. </p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../3_construccion_de_imagenes/" class="btn btn-neutral float-right" title="Construcción de imágenes">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../1_introduccion/" class="btn btn-neutral" title="Introducción"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../1_introduccion/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../3_construccion_de_imagenes/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

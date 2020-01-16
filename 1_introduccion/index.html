@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Introducción - Docker para Desarrolladores</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Introducci\u00f3n";
+    var mkdocs_page_input_path = "1_introduccion.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Docker para Desarrolladores</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Introducción</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#1-introduccion">1 Introducción</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#11-introduccion-a-docker">1.1 Introducción a Docker</a></li>
+        
+            <li><a class="toctree-l3" href="#12-caracteristicas-de-docker">1.2 Características de Docker</a></li>
+        
+            <li><a class="toctree-l3" href="#13-componentes-de-docker">1.3 Componentes de Docker</a></li>
+        
+            <li><a class="toctree-l3" href="#14-ciclo-de-desarrollo-del-software-con-docker">1.4 Ciclo de Desarrollo del Software con Docker</a></li>
+        
+            <li><a class="toctree-l3" href="#15-instalacion-de-docker">1.5 Instalación de Docker</a></li>
+        
+            <li><a class="toctree-l3" href="#16-comandos-comunes-para-gestionar-contenedores">1.6 Comandos comunes para gestionar contenedores</a></li>
+        
+            <li><a class="toctree-l3" href="#17-conclusiones">1.7 Conclusiones</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../2_arquitecturas_de_microservicios/">Arquitecturas de Microservicios</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../3_construccion_de_imagenes/">Construcción de imágenes</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../4_desarrollo_con_contenedores/">Desarrollo con contenedores</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../5_integracion_continua/">Integración continua</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../6_docker_en_produccion/">Docker en producción</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Docker para Desarrolladores</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Introducción</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="1-introduccion">1 Introducción</h1>
+<ul>
+<li><strong>Objetivo</strong>: Adquirir soltura con Docker para el desarrollo de aplicaciones.</li>
+<li>Introducir los principales conceptos.</li>
+<li>Ejemplos prácticos de workflow para desarrolladores.</li>
+<li><strong>No es objetivo</strong>: Explicar las tecnologías de bajo nivel que dan soporte a la ejecución de contenedores como <strong>namespaces</strong>, <strong>cgroups</strong> o <strong>storage drivers</strong>.</li>
+<li><strong>Hincapié</strong> en:</li>
+<li>Desarrollo en local</li>
+<li>Automatización de pruebas.</li>
+</ul>
+<p>Contenidos
+-  Introducción a Docker
+-  Arquitecturas de Microservicios
+-  Construcción de imágenes 
+-  Desarrollo de contenedores
+-  Integración continua
+-  Docker en Producción</p>
+<h2 id="11-introduccion-a-docker">1.1 Introducción a Docker</h2>
+<ul>
+<li>Docker es <strong>open source</strong></li>
+<li>Los contenedores LXC (LinuX Containers) son un concepto relativamente antiguo y utilizado desde hace tiempo por grandes empresas como Amazon o Google, pero su gestión era complicada. Sin embargo, Docker define APIs y herramientas de línea de comandos que hacen casi trivial la creación, distribución y ejecución de contenedores.</li>
+<li>Docker es una “friendly” API a contenedores</li>
+<li>Proceso aislado del resto de los procesos de la máquina gracias a que corre sobre su propio sistema de ficheros, su propio espacio de usuarios y de procesos, sus propias interfaces de red… es por ello que a veces se dice que un contenedor es una <strong>máquina virtual ligera</strong></li>
+</ul>
+<h2 id="12-caracteristicas-de-docker">1.2 Características de Docker</h2>
+<p>Lema de Docker: “Build, Ship and Run, any app, anywhere” </p>
+<h3 id="121-portabilidad">1.2.1 Portabilidad</h3>
+<ul>
+<li>
+<p>Un contenedor es ejecutado por lo que se denomina el <strong><em>Docker Engine</em></strong>, un <strong>demonio</strong> que es fácilmente instalable en todas las distribuciones Linux y también en Windows y Mac. </p>
+</li>
+<li>
+<p><em>Un contenedor ejecuta una imagen de docker</em>, que es una representación del sistema de ficheros y otros metadatos que el contenedor va a utilizar para su ejecución.</p>
+</li>
+<li>Una vez que hemos generado una <strong>imagen</strong> de Docker, ya sea en nuestro ordenador o vía una herramienta externa, esta imagen podrá ser <strong>ejecutada</strong> por cualquier <em>Docker Engine</em>, independientemente del sistema operativo y la infraestructura que haya debajo.</li>
+</ul>
+<h3 id="122-inmutabilidad">1.2.2 Inmutabilidad</h3>
+<ul>
+<li>Una aplicación la componen</li>
+<li>el <strong>código fuente</strong></li>
+<li>las <strong>librerías</strong> del sistema operativo del lenguaje de programación necesarias para la ejecución de dicho código.</li>
+<li>Estas dependencias <strong>dependen a su vez del sistema operativo</strong> donde nuestro código va a ser ejecutado, y por esto mismo ocurre muchas veces aquello de que “<em>no sé, en mi máquina funciona</em>”.</li>
+<li>Sin embargo, el proceso de instalación de dependencias en <strong>Docker no depende del sistema operativo</strong>, sino que este proceso se realiza cuando se genera una imagen de docker.</li>
+<li>Es decir, una <strong>imagen de docker</strong> (también llamada repositorio por su parecido con los repositorios de git) contiene tanto <strong>el código de la aplicación como las dependencias que necesita para su ejecución</strong>.</li>
+<li>Una imagen se genera una vez y puede ser ejecutada las veces que sean necesarias, y siempre se ejecutará con las misma versión del código fuente y sus dependencias, por lo que se dice que es <strong>inmutable</strong>.</li>
+<li>Si unimos inmutabilidad con el hecho de que Docker es <strong>portable</strong>, decimos que:</li>
+<li>Docker es una herramienta fiable, ya que una vez generada una  imagen, ésta se comporta de la misma manera independientemente del sistema operativo y de la infraestructura donde se esté ejecutando.</li>
+</ul>
+<h3 id="123-ligereza">1.2.3 Ligereza</h3>
+<ul>
+<li>Los contenedores corriendo en la misma máquina <strong>comparten</strong> entre ellos el  <strong>sistema operativo</strong>, pero cada contenedor es un <strong>proceso independiente</strong> con su <strong>propio sistema de ficheros</strong> y su <strong>propio espacio de procesos y usuarios</strong> </li>
+<li>Para este fin Docker utiliza <code>cgroups</code> y <code>namespaces</code>, recursos de aislamiento basados en el kernel de Linux</li>
+<li>Esto hace que la ejecución de contenedores <strong>sea mucho más ligera</strong> que otros mecanismos  de virtualización.</li>
+<li>Comparemos por ejemplo con Virtualbox:</li>
+<li>Virtualbox permite del orden de 4 ó 5 máquinas virtuales en un ordenador convencional, mientras que en el mismo ordenador podremos correr <strong>cientos de contenedores</strong> sin mayor problema, además de que su gestión es mucho más sencilla. </li>
+</ul>
+<h2 id="13-componentes-de-docker">1.3 Componentes de Docker</h2>
+<p>Docker está formado fundamentalmente por tres componentes: </p>
+<ul>
+<li>Docker Engine</li>
+<li>Docker Client</li>
+<li>Docker Registry</li>
+</ul>
+<p align="center"> 
+<img src="./0101.png">
+</p>
+
+<h3 id="131-docker-engine-o-demonio-docker">1.3.1 Docker Engine o Demonio Docker:</h3>
+<p>Es un <strong>demonio</strong> que corre sobre cualquier distribución de Linux (y ahora también en Windows y Macs) y que <strong>expone una API externa para la gestión de imágenes y contenedores</strong> (y otras entidades que se van añadiendo en sucesivas distribuciones de docker como volúmenes o redes virtuales). Podemos destacar entre sus funciones principales: </p>
+<ul>
+<li><strong>Creación de imágenes</strong> docker.</li>
+<li><strong>Publicación de imágenes</strong> en un <em>Docker Registry</em> o Registro de Docker (otro componente Docker que se explicará a continuación).</li>
+<li><strong>Descarga de imágenes</strong> desde un Registro de Docker</li>
+<li><strong>Ejecución de contenedores</strong> usando imágenes locales.</li>
+</ul>
+<p>Otra función fundamental del Docker Engine es la <strong>gestión de los contenedores</strong> en ejecución, permitiendo <strong>parar</strong> su ejecución, <strong>rearrancarla</strong>, ver sus <strong>logs</strong> o sus <strong>estadísticas</strong> de uso de recursos. </p>
+<h3 id="132-docker-registry-o-registro-docker-docker-hub">1.3.2 Docker Registry o Registro Docker (Docker Hub)</h3>
+<ul>
+<li>El Registro es otro componente de Docker que suele <strong>correr en un servidor independiente</strong> y donde se <strong>publican las imágenes</strong> que generan los Docker Engine de tal manera que estén disponibles para su utilización por cualquier otra máquina.</li>
+<li>Es un componente fundamental dentro de la arquitectura de Docker ya que permite <strong>distribuir</strong> nuestras aplicaciones.</li>
+<li>El Registro de Docker es un proyecto open source que puede ser instalado gratuitamente en cualquier servidor, pero Docker ofrece <strong><em>Docker Hub</em></strong>, un sistema SaaS de pago donde puedes <strong>subir tus propias imágenes</strong>, <strong>acceder a imágenes públicas</strong> de otros usuarios, e incluso a <strong>imágenes oficiales</strong> de las principales aplicaciones como son: MySQL, MongoDB, RabbitMQ, Redis, etc. </li>
+<li>El registro de Docker funciona de una manera muy parecida a git (de la misma manera que Docker Hub y sus métodos de pago funcionan de una manera muy parecida a Github).</li>
+<li>Cada <strong>imagen</strong>, también conocida como <strong>repositorio</strong>, es una <strong>sucesión de capas</strong>. Es decir, cada vez que hacemos un <code>build</code> en local de nuestra imagen, el Registro de Docker sólo almacena el <strong><em>diff</em></strong> respecto de la versión anterior, haciendo mucho más <strong>eficiente</strong> el proceso de <strong>creación</strong> y <strong>distribución</strong> de imágenes. </li>
+</ul>
+<h3 id="133-docker-client-o-cliente-docker">1.3.3 Docker Client o Cliente Docker</h3>
+<ul>
+<li>Es cualquier <strong>herramienta</strong> que hace uso de la <strong>api</strong> remota del Docker Engine, pero suele hacer referencia al comando <code>docker</code> que hace las veces de <strong>herramienta de línea de comando</strong>s (cli) para gestionar un Docker Engine. </li>
+<li>La cli de docker se puede configurar para hablar con un Docker Engine <strong>local</strong> o <strong>remoto</strong>, permitiendo gestionar tanto nuestro entorno de desarrollo local, como nuestros servidores de producción. </li>
+</ul>
+<h2 id="14-ciclo-de-desarrollo-del-software-con-docker">1.4 Ciclo de Desarrollo del Software con Docker</h2>
+<p>Docker transforma radicalmente el concepto de <strong>entorno local de desarrollo</strong>. La siguiente figura muestra un esquema de dicho entorno local de desarrollo:</p>
+<p align="center">
+<img src ="./0102.png">
+</p>
+
+<ul>
+<li>Los desarrolladores pueden <strong>correr contenedores con las dependencias externas de la aplicación que están desarrollando</strong>, tales como <code>nginx</code> o <code>mysql</code>. </li>
+<li>También corren la aplicación que están desarrollando en su propio contenedor</li>
+<li>Una vez que ha terminado el desarrollo de una nueva funcionalidad y los <em>tests</em> se pasan en local se puede hacer <code>push</code> de la nueva imagen que han desarrollado al <em>Registro</em>.</li>
+<li>La imagen pusheada <strong>puede ser descargada</strong> en los servidores de producción para desplegar una nueva versión de nuestra aplicación con la garantía de que se comportará de la misma manera que en el entorno local del desarrollador gracias a las propiedades de portabilidad e inmutabilidad de los contenedores.</li>
+</ul>
+<p>Este ciclo de desarrollo es la gran ventaja que aporta Docker a los ciclos de desarrollo de software, y la razón por la que Docker se ha hecho tan popular.</p>
+<h2 id="15-instalacion-de-docker">1.5 Instalación de Docker</h2>
+<ul>
+<li>En la instalación de Docker queremos distinguir:</li>
+<li>La instalación para el <strong>desarrollo en local</strong></li>
+<li>La instalación en <strong>servidores</strong> para correr código en producción<ul>
+<li>En cuanto a la instalación en servidores de producción, la mayoría de proveedores de servicio: AWS, GCE, Azure, Digital Ocean… disponen de máquinas virtuales con versiones de Docker pre-instaladas.</li>
+</ul>
+</li>
+<li>En cualquier caso, la instalación es bastante sencilla. Para la instalación en local (para desarrolladores) tenemos <strong>Docker for Mac</strong> y <strong>Docker for Windows</strong>.</li>
+<li>
+<p>Tanto Docker for Mac como Docker for Windows instalan el <em>Docker Engine</em>, la herramienta de línea de comandos <code>docker</code>, y <code>docker-compose</code>, una <strong>herramienta de desarrollo</strong> extremadamente útil y que explicaremos en detalle en las próximas lecciones. </p>
+</li>
+<li>
+<p><a href="https://docs.docker.com/docker-for-mac/install/">Docker for Mac</a></p>
+</li>
+<li><a href="https://docs.docker.com/docker-for-windows/install/">Docker for Windows</a></li>
+<li><a href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/">Docker for Ubuntu</a></li>
+</ul>
+<p>Se puede hacer la instalación de Docker usando el canal <strong>edge</strong> o el canal <strong>stable</strong>. El canal <em>edge</em> se actualiza <strong>cada mes</strong>, y el de <em>stable</em> <strong>cada tres meses</strong>, por lo que tarda más en tener algunas funcionalidades -<em>pero es más estable</em>. </p>
+<h3 id="151-instalacion-de-docker-ce-comunity-edition-en-linux">1.5.1 Instalación de Docker CE (Comunity Edition) en Linux</h3>
+<p>Se puede instalar Docker CE de diferentes maneras, según sean las necesidades: </p>
+<ul>
+<li>La mayoría de los usuarios configuran los <strong>repositorios</strong> de Docker e instalan desde ellos, para facilitar las tareas de instalación y actualización. Este es el <strong>enfoque recomendado</strong>.</li>
+<li>Algunos usuarios descargan el paquete <code>.deb</code>, lo instalan manualmente y administran las actualizaciones de forma completamente manual. Esto es útil en situaciones como la instalación de Docker en sistemas sin acceso a Internet.</li>
+<li>En los entornos de prueba y desarrollo, algunos usuarios optan por usar scripts automatizados para instalar Docker.</li>
+</ul>
+<p>Se describirá solo el proceso de instalación del <strong>primer caso</strong> mientras que para proceder con el resto se puede consultar en la documentación de docker cómo hacerlo. </p>
+<h4 id="1511-instalar-usando-el-repositorio">1.5.1.1 Instalar usando el repositorio</h4>
+<p>Antes de instalar Docker CE por primera vez en una nueva máquina host, debe configurar el <strong>repositorio de Docker</strong>. Después, se puede <strong>instalar</strong> y <strong>actualizar</strong> Docker desde el repositorio. </p>
+<h5 id="configurar-el-repositorio">Configurar el repositorio</h5>
+<ul>
+<li>Actualizar el índice de los paquetes <code>apt</code>: </li>
+</ul>
+<pre><code>$ sudo apt-get update 
+</code></pre>
+
+<ul>
+<li>Instalar los paquetes para permitir que <code>apt</code> use un repositorio sobre HTTPS: </li>
+</ul>
+<pre><code class="bash">$ sudo apt-get install \ 
+       apt-transport-https \
+       ca-certificates \ 
+       curl \ 
+       gnupg-agent \
+       software-properties-common 
+</code></pre>
+
+<ul>
+<li>Agregar la llave GPG oficial de Docker: </li>
+</ul>
+<pre><code>$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - 
+</code></pre>
+
+<ul>
+<li>Verificar que ahora se tenga la clave con la huella digital 9DC8 5822  9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88, buscando los últimos 8  caracteres de la huella digital. </li>
+</ul>
+<pre><code class="bash">$ sudo apt-key fingerprint 0EBFCD88
+
+pub   rsa4096 2017-02-22 [SCEA]
+9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88
+uid           [ unknown] Docker Release ( CE deb ) &lt;docker@docker.com&gt; 
+sub   rsa4096 2017-02-22 [ S] 
+</code></pre>
+
+<p>Utilizar el siguiente comando para configurar el repositorio <code>stable</code>. Para agregar el repositorio <code>nightly</code> o de <code>test</code> (o ambos), agregar la palabra <code>nightly</code> o <code>test</code> después de la palabra <code>stable</code> en los comandos (una descripción de los canales nightly y test se puede encontrar <a href="https://docs.docker.com/install/">aquí</a>).</p>
+<pre><code>sudo add-apt-repository \
+    &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable&quot;
+</code></pre>
+
+<h5 id="instalar-docker-ce">Instalar Docker CE</h5>
+<ul>
+<li>Actualizar el índice de paquetes apt.</li>
+</ul>
+<pre><code>$ sudo apt-get update 
+</code></pre>
+
+<ul>
+<li>Instalar la última versión de <strong>Docker CE</strong> y <strong>container</strong>, o consultar en la documentación si se quiere instalar una versión específica:</li>
+</ul>
+<pre><code>$ sudo apt-get install docker-ce docker-ce-cli containerd.io 
+</code></pre>
+
+<ul>
+<li>Verificar que Docker CE está instalado correctamente ejecutando la imagen de <code>hello-world</code>. </li>
+</ul>
+<pre><code>$ sudo docker run hello-world 
+</code></pre>
+
+<p>Este comando descarga una imagen de prueba y la ejecuta en un contenedor. Cuando el contenedor se ejecuta, imprime un mensaje  informativo y sale.</p>
+<p>Docker CE está instalado y funcionando. Se crea el grupo <code>docker</code> pero no se agrega ningún usuario. Se necesitará usar <code>sudo</code> para ejecutar los comandos de <code>docker</code>. Continuar con la <a href="https://docs.docker.com/install/linux/linux-postinstall/">post-instalación</a> en Linux para permitir que los usuarios sin privilegios ejecuten los comandos de Docker (<code>sudo usermod -aG docker $USER</code>, debe hacerse inmediatamente antes de lanzar comandos de Docker como <code>root</code> o se generarán <a href="https://docs.docker.com/install/linux/linux-postinstall/">errores</a>), para arrancar el servicio desde el boot y para otros pasos de configuración opcionales y arreglar posibles errores.</p>
+<h3 id="152-docker-en-lxc"><a href="https://stgraber.org/2016/04/13/lxd-2-0-docker-in-lxd-712/">1.5.2 Docker en LXC</a></h3>
+<ul>
+<li>Para ejecutar docker en un conteneder LXC hemos de lanzarlo con: </li>
+</ul>
+<pre><code class="bash">lxc launch ubuntu:bionic &lt;contenedor&gt; -c security.nesting=true
+</code></pre>
+
+<ul>
+<li>o bien, si ya lo tenemos creado, cambiar su comportamiento con  </li>
+</ul>
+<pre><code>lxc config set &lt;contenedor&gt; security.nesting true
+lxc restart &lt;contenedor&gt;
+</code></pre>
+
+<h2 id="16-comandos-comunes-para-gestionar-contenedores">1.6 Comandos comunes para gestionar contenedores</h2>
+<p>Una vez que tenemos docker corriendo en nuestra máquina, podemos empezar a ejecutar algunos comandos: </p>
+<ul>
+<li><code>docker &lt;comando&gt; --help</code></li>
+<li><code>docker version</code>: da información sobre la versión de docker que estamos corriendo.</li>
+<li><code>docker info</code>: da información acerca de la cantidad de contenedores e imágenes que está gestionando la máquina actual, así como los plugins actualmente instalados.</li>
+<li><code>docker run</code>: crea un contenedor a partir de una imagen. Este comando permite multitud de parámetros, que son actualizados para cada versión del Docker Engine, por lo que para su documentación lo mejor es hacer referencia a la página oficial.</li>
+<li><code>docker ps</code>: muestra los contenedores que están <strong>corriendo</strong> en la máquina. Con el flag <code>-a</code> muestra también los <strong>contenedores</strong> que están <strong>parados</strong>.</li>
+<li><code>docker inspect</code>: muestra <strong>información detallada de un contenedor</strong> en formato json. Se puede acceder a un campo particular con el comando <code>docker inspect -f '{{.Name}}' &lt;contenedor&gt;</code>.</li>
+<li><code>docker stop</code>: para la ejecución de un contenedor.</li>
+<li><code>docker start</code>: reanuda la ejecución de un contenedor.</li>
+<li><code>docker rm</code>: elimina un contenedor. Para borrar todos los contenedores de una máquina se puede ejecutar el comando <code>docker rm -fv $(docker ps -aq)</code>.</li>
+</ul>
+<p>memoria utilizada, la CPU, el disco… </p>
+<ul>
+<li><code>docker exec</code>: ejecuta un comando en un contenedor. Útil para depurar contenedores en ejecución con las opciones <code>docker exec -it &lt;contenedor&gt; bash</code>.</li>
+<li><code>docker cp</code>: copia archivos entre el host y un contenedor.</li>
+<li><code>docker logs</code>: muestra los logs de un contenedor.</li>
+<li><code>docker stats</code>: muestras las estadísticas de ejecución de un contenedor.</li>
+<li><code>docker system prune</code>: utilidad para eliminar recursos que no están siendo usados en este momento.</li>
+</ul>
+<p>También podemos configurar el cliente de docker para hablar con Docker Engines remotos usando las variables de entorno:</p>
+<pre><code>export DOCKERHOST=&quot;tcp://ucp.dckr.io:443&quot;
+export DOCKERTLSVERIFY=1
+export DOCKERCERTPATH=&quot;~/ucp/stage&quot;
+</code></pre>
+
+<p>para conectar a un Docker Engine escuchando en la url <code>tcp://ucp.dckr.io:443</code> y usando TLS y los certificados del directorio <code>~/ucp/stage</code>.
+Si la conexión fuera abierta, indicaríamos <code>export DOCKERTLSVERIFY=0</code>. </p>
+<h2 id="17-conclusiones">1.7 Conclusiones</h2>
+<ul>
+<li>Docker es una <strong>tecnología disruptiva</strong> que todo desarrollador debe conocer</li>
+<li>Ignorar Docker será una <strong>desventaja competitiva</strong> para cualquier compañía</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../2_arquitecturas_de_microservicios/" class="btn btn-neutral float-right" title="Arquitecturas de Microservicios">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+        <span style="margin-left: 15px"><a href="../2_arquitecturas_de_microservicios/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
