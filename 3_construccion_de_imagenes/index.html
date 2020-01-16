@@ -177,14 +177,14 @@ CMD [&quot;app.py&quot;]
 <p>La <strong>construcción de una imagen</strong> de Docker dado un Dockerfile puede ser un  <strong>proceso costoso</strong> ya que puede implicar la instalación de un número elevado de librerías, y al mismo tiempo es un proceso <strong>bastante repetitivo</strong> porque sucesivos builds del mismo Dockerfile suelen ser similares entre sí. Es por eso que Docker introduce el concepto de la <strong>caché</strong> para <strong>optimizar</strong> el proceso de <strong>construcción de imágenes</strong>.</p>
 <ul>
 <li>La <strong>primera optimización</strong> que hace la cache de Docker es la <strong>descarga de la imagen base</strong> de nuestro Dockerfile.</li>
-<li>Docker descargará la imagen base siempre que la misma no se encuentre ya descargada en la máquina que hace el <em>build</em>. Esta optimización parece obvia ya que estas  imágenes pueden tener un tamaño de cientos de MB, pero hay que tener  cuidado ya que si la versión remota de la imagen cambia, Docker seguirá  utilizando la versión local. Por tanto, si queremos ejecutar nuestro  Dockerfile con la nueva versión de la imagen base deberemos hacer un <code>docker pull</code> manual de la imagen base, o ejecutar <code>docker build --pull</code>.</li>
+<li>Docker descargará la imagen base siempre que la misma no se encuentre ya descargada en la máquina que hace el <em>build</em>. Esta optimización parece obvia ya que estas  imágenes pueden tener un tamaño de cientos de MB, pero hay que tener  cuidado ya que si la versión remota de la imagen cambia, Docker seguirá  utilizando la versión local. Por tanto, si queremos ejecutar nuestro Dockerfile con la nueva versión de la imagen base deberemos hacer un <code>docker pull</code> manual de la imagen base, o ejecutar <code>docker build --pull</code>.</li>
 </ul>
 <p>Como hemos comentado anteriormente, una <strong>imagen de Docker</strong> tiene una estructura interna bastante <strong>parecida a un repositorio de git</strong>. Lo que conocemos como <em>commits</em> en git lo denominamos <strong>capas</strong> de una imagen en Docker. Por lo tanto, <strong>una imagen</strong> (o repositorio) <strong>es una sucesión de capas</strong> en un Registro de Docker, donde cada capa almacena un <em>diff</em> respecto de la capa anterior. Esto es importante de cara a optimizar nuestros <em>Dockerfiles</em>, como veremos en la siguiente sección.</p>
-<p>Por ahora bastará saber que <strong>cada instrucción</strong> de nuestro <code>Dockerfile</code> <strong>creará una y sólo una capa de nuestra imagen</strong>. Por lo tanto, la cache de Docker funciona a nivel de instrucción. En otras palabras, si una línea del Dockerfile no cambia, en lugar de recomputarla, Docker asume que la capa que genera esa instrucción es la misma que la ejecución anterior del Dockerfile. Por lo tanto, si tenemos una instrucción tal como:</p>
+<p>Por ahora bastará saber que <strong>cada instrucción</strong> de nuestro <code>Dockerfile</code> <strong>creará una y sólo una capa de nuestra imagen</strong>. Por lo tanto, la caché de Docker funciona a nivel de instrucción. En otras palabras, si una línea del Dockerfile no cambia, en lugar de recomputarla, Docker asume que la capa que genera esa instrucción es la misma que la ejecución anterior del Dockerfile. Por lo tanto, si tenemos una instrucción tal como:</p>
 <pre><code class="yaml">RUN apt-get update &amp;&amp; apt-get install -y git
 </code></pre>
 
-<p>que no ha cambiado entre dos build sucesivos, los comandos <code>apt-get</code> no se ejecutarán, sino que <strong>se reusará la capa que generó el primer build</strong>. Por tanto, aunque antes de ejecutar el segundo build haya una nueva versión del paquete git, la imagen construida a partir de este Dockerfile tendrá la versión de git anterior, la que se instaló en el primer build  de este Dockerfile. Podemos desactivar el uso de la caché ejecutando <code>docker build --no-cache</code>. </p>
+<p>que no ha cambiado entre dos build sucesivos, los comandos <code>apt-get</code> no se ejecutarán, sino que <strong>se reusará la capa que generó el primer build</strong>. Por tanto, aunque antes de ejecutar el segundo build haya una nueva versión del paquete git, la imagen construida a partir de este Dockerfile tendrá la versión de git anterior, la que se instaló en el primer build de este Dockerfile. Podemos desactivar el uso de la caché ejecutando <code>docker build --no-cache</code>. </p>
 <p>Es importante destacar los siguientes aspectos sobre la caché de Docker: </p>
 <ul>
 <li>La <strong>cache de Docker es local</strong>, es decir, si es la primera vez que haces el build de un Dockerfile en una máquina dada, todas las  instrucciones del Dockerfile serán ejecutadas, aunque la imagen ya haya  sido construida en un Registro de Docker.</li>
@@ -213,7 +213,7 @@ CMD [&quot;app.py&quot;]
 <p>Otro opción muy práctica es el uso de imágenes base pequeñas, por ejemplo, haciendo uso de "alpine". </p>
 <p>Por ejemplo, comparar las imágenes de <code>ubuntu</code> y <code>alpine</code>. </p>
 <h3 id="343-ejecutar-solo-un-proceso-por-contenedor">3.4.3 Ejecutar sólo un proceso por contenedor</h3>
-<p>Salvo raras excepciones, es <strong>recomendable correr sólo un proceso por contenedor</strong>. Esto permite reutilizar contenedores más fácilmente, que  sean más fáciles de escalar, y da lugar a sistemas más desacoplados. Por ejemplo sacar la lógica de <em>logging</em> a un contenedor independiente (Docker tiene soluciones <em>ad-hoc</em> para esto). </p>
+<p>Salvo raras excepciones, es <strong>recomendable correr sólo un proceso por contenedor</strong>. Esto permite reutilizar contenedores más fácilmente, que sean más fáciles de escalar, y da lugar a sistemas más desacoplados. Por ejemplo sacar la lógica de <em>logging</em> a un contenedor independiente (Docker tiene soluciones <em>ad-hoc</em> para esto). </p>
 <h3 id="344-minimizar-el-numero-de-capas-de-la-imagen">3.4.4 Minimizar el número de capas de la imagen</h3>
 <p>Como se ha dicho anteriormente, cada capa de una imagen se corresponde con una instrucción del <code>Dockerfile</code>. Compare el <code>Dockerfile</code>: </p>
 <pre><code class="yaml">RUN apt-get update
@@ -235,12 +235,12 @@ RUN apt-get install -y mercurial
 <p>Ambos son igualmente legibles, pero el primero genera 5 capas, y el segundo sólo una, que además ejecuta un <code>apt-get clean</code> que reduce el tamaño de dicha capa. Recordar que <strong>cada instrucción de </strong><code>Dockerfile</code> <strong>genera una capa en la imagen final</strong>. Por tanto, si hacemos un <code>apt-get install</code> en una instrucción, y un <code>apt-get clean</code> en otra instrucción, habremos dejado una capa con todos los ficheros que luego el <code>apt-get clean</code> borra. </p>
 <p>¿Nueva tecnología? <a href="https://www.youtube.com/watch?v=kkpQ_UZn2uo&amp;t=1023s">BuildKit</a></p>
 <h3 id="345-optimizar-el-uso-de-la-cache">3.4.5 Optimizar el uso de la cache</h3>
-<p><strong>Optimiza el uso de la cache añadiendo al principio de tu Dockerfile las  instrucciones que menos cambian</strong> (como la instalación de librerías), y  dejando para el final las que más cambian (como el copiado del código  fuente).</p>
-<p>Como ejemplo comparar el Dockerfile: </p>
-<p>Por ejemplo, compara docker-for-dev/flask-alpine y docker-for-dev/flask-build-cache. </p>
-<p>El primero cachea la instalaciones de las dependencias pip siempre que no añadamos nuevas dependencias al fichero requirements.txt, antes de  añadir el código fuente. Sin embargo, el segundo, aunque genere menos capas, no reusa la instalación de las dependencias porque ADD * /app  invalida la cache en cuanto hay un cambio en nuestro código fuente.</p>
-<h3 id="346-parametrizar-tus-dockerfiles-usando-argumentos">3.4.6 Parametrizar tus Dockerfiles usando argumentos</h3>
-<p>Aumenta la reusabilidad de tus <code>Dockerfile</code>'s entre distintos entornos y  aplicaciones parametrizando tus <code>Dockerfile</code>'s con argumentos. Los  argumentos son valores que se pasan como parámetros a cada "build" (aunque pueden tener valores por defecto), y que puedes utilizar en las  instrucciones de tu <code>Dockerfile</code>. Por ejemplo, el <code>Dockerfile</code>:</p>
+<p><strong>Optimizar el uso de la cache añadiendo al principio del Dockerfile las instrucciones que menos cambian</strong> (como la instalación de librerías), y  dejando para el final las que más cambian (como el copiado del código  fuente).</p>
+<p>Como ejemplo comparar los <code>Dockerfile</code>'s:(https://github.com/OpenWebinarsNet/docker-for-devs) </p>
+<p><a href="https://github.com/OpenWebinarsNet/docker-for-devs/tree/master/flask-alpine"><code>docker-for-dev/flask-alpine</code></a> y <a href="https://github.com/OpenWebinarsNet/docker-for-devs/tree/master/flask-build-cache"><code>docker-for-dev/flask-build-cache</code></a>. </p>
+<p>El primero cachea la instalaciones de las dependencias pip siempre que no añadamos nuevas dependencias al fichero <code>requirements.txt</code>, antes de  añadir el código fuente. Sin embargo, el segundo, aunque genere menos capas, no reusa la instalación de las dependencias porque <code>ADD * /app</code>  invalida la cache en cuanto hay un cambio en nuestro código fuente.</p>
+<h3 id="346-parametrizar-los-dockerfiles-usando-argumentos">3.4.6 Parametrizar los Dockerfiles usando argumentos</h3>
+<p>Se aumenta la reusabilidad de los <code>Dockerfile</code>'s entre distintos entornos y aplicaciones parametrizando los <code>Dockerfile</code>'s con argumentos. Los  argumentos son valores que se pasan como parámetros a cada "build" (aunque pueden tener valores por defecto), y que se pueden utilizar en las  instrucciones del <code>Dockerfile</code>. Por ejemplo, el <code>Dockerfile</code>:</p>
 <pre><code class="yaml">FROM ubuntu ARG user=root ARG password RUN echo $user $password 
 </code></pre>
 
@@ -250,8 +250,8 @@ RUN apt-get install -y mercurial
 
 <h3 id="347-utilizar-multi-stage-builds">3.4.7 Utilizar multi-stage builds</h3>
 <p>Los multi-stage es una funcionalidad introducida recientemente y que ayuda a <strong>crear imágenes muy pequeñas</strong>. Permiten resetear el sistema de  ficheros de la imagen que se está construyendo, cambiar a otro sistema de fichero, pero importar ficheros de la imagen anterior.</p>
-<p>Tenemos un ejemplo en docker-for-dev/go-multi-stage. </p>
-<p>El primer FROM línea inicializa el sistema de ficheros con una imagen que lleva Go instalado. En esa imagen añadimos el directorio actual con todo su contexto y hacer el build de nuestro programa Go. Luego viene  una nueva instrucción FROM que inicializa el sistema de ficheros con una imagen alpine sin nada instalado. La instrucción COPY copia el binario  generado en el stage anterior y lo copia en la imagen actual. El  resultado es una imagen muy pequeña, ya que no lleva el compilador de Go incluido, solo lleva el binario que necesitamos.</p>
+<p>Tenemos un ejemplo en <a href="https://github.com/OpenWebinarsNet/docker-for-devs/tree/master/go-multi-stage"><code>docker-for-dev/go-multi-stage</code></a>. </p>
+<p>El primer <code>FROM</code> inicializa el sistema de ficheros con una imagen que lleva <em>Go</em> instalado. En esa imagen añadimos el directorio actual con todo su contexto y hacer el build de nuestro programa <em>Go</em>. Luego viene  una nueva instrucción <code>FROM</code> que inicializa el sistema de ficheros con una imagen <em>alpine</em> sin nada instalado. La instrucción <code>COPY</code> copia el binario  generado en el stage anterior y lo copia en la imagen actual. El  resultado es una imagen muy pequeña, ya que no lleva el compilador de <em>Go</em> incluido, solo lleva el binario que necesitamos.</p>
 <h2 id="35-resumen-de-la-estructura-de-un-fichero-dockerfile">3.5 <a href="https://www.ramoncarrasco.es/es/content/es/kb/150/resumen-de-estructura-fichero-dockerfile">Resumen de la estructura de un fichero <code>Dockerfile</code></a></h2>
 <ul>
 <li>
@@ -261,13 +261,11 @@ RUN apt-get install -y mercurial
 <p>Las líneas de comentario van precedidas del símbolo <code>#</code></p>
 </li>
 <li>
-<p>El flujo típico de un fichero </p>
+<p>El flujo típico de un fichero <code>Dockerfile</code> es </p>
 </li>
-</ul>
-<p><code>Dockerfile</code></p>
-<p>es </p>
-<ul>
-<li>Selección de imagen base</li>
+<li>
+<p>Selección de imagen base</p>
+</li>
 <li>Descarga e instalación de dependencias</li>
 <li>
 <p>Comandos a ejecutar al arrancar el contenedor</p>
@@ -276,37 +274,45 @@ RUN apt-get install -y mercurial
 <p>Instrucciones: </p>
 </li>
 <li>
-<p><code>FROM  [AS ]</code> especifica  la imagen a utilizar como base. Se puede especificar un nombre de fase  para los casos en los que se utilizan construcciones multi-fase.</p>
+<p><code>FROM &lt;imagen&gt; [AS &lt;fase&gt;]</code> especifica  la imagen a utilizar como base. Se puede especificar un nombre de fase para los casos en los que se utilizan construcciones multi-fase.</p>
 </li>
 <li>
-<p><code>RUN</code> ejecuta el comando en el momento de la creación de la imagen</p>
+<p><code>RUN &lt;comando&gt;</code> ejecuta el comando en el momento de la creación de la imagen</p>
 </li>
 <li>
-<p><code>CMD &lt;comando&gt;</code></p>
-<p>ejecuta el comando en el momento de ejecución del contenedor. Parámetros:  </p>
+<p><code>CMD &lt;comando&gt;</code> ejecuta el comando en el momento de ejecución del contenedor. Parámetros:   </p>
+</li>
+<li>
+<p><code>&lt;comando&gt;</code> es el comando a ejecutar en el momento de iniciar el contenedor. Es un objeto de tipo <em>array</em>, que contiene un primer elemento que se identificará como el comando a ejecutar, y todos los sucesivos elementos serán los parámetros a pasar a dicho comando. Por ejemplo, si en línea de comando quisiésemos ejecutar <code>npm start</code> para arrancar Node, <code>&lt;comando&gt;</code> tendría el valor <code>["npm","start"]</code>.</p>
+</li>
+<li>
+<p><code>WORKDIR &lt;ruta&gt;</code> especifica la carpeta de trabajo dentro del contenedor. A partir del momento en que se ejecuta esta  instrucción, todos los comandos siguientes se ejecutarán de forma  relativa a <code>&lt;ruta&gt;</code>. Si <code>&lt;ruta&gt;</code> no  existe, se creará automáticamente. Esta es una buena práctica cara a  evitar conflictos de ficheros con la imagen base utilizada.</p>
+</li>
+<li>
+<p><code>COPY [--from=&lt;fase&gt;] &lt;origen&gt; &lt;destino&gt;</code> copia los ficheros de <code>&lt;origen&gt;</code> en <code>&lt;destino&gt;</code>. Los parámetros son relativos al contexto de construcción (la carpeta donde se encuentra <code>Dockerfile</code>):</p>
 <ul>
-<li><code>es el comando a ejecutar en el momento de iniciar el contenedor. Es un objeto de tipo *array*, que contiene un primer elemento que se identificará como el comando a  ejecutar, y todos los sucesivos elementos serán los parámetros a pasar a dicho comando. Por ejemplo, si en línea de comando quisiésemos ejecutar `npm start` para arrancar Node,</code> tendría el valor <code>["npm","start"]</code>.</li>
-</ul>
-</li>
-<li>
-<p><code>WORKDIR</code> especifica la carpeta de trabajo dentro del contenedor. A partir del momento en que se ejecuta esta  instrucción, todos los comandos siguientes se ejecutarán de forma  relativa a <code>. Si</code> no  existe, se creará automáticamente. Esta es una buena práctica cara a  evitar conflictos de ficheros con la imagen base utilizada.</p>
-</li>
-<li>
-<p><code>COPY [--from=&lt;fase&gt;] &lt;origen&gt; &lt;destino&gt;</code></p>
-<p>copia los ficheros de </p>
-<p><code>&lt;origen&gt;</code></p>
-<p>en </p>
-<p><code>&lt;destino&gt;</code></p>
-<p>. Los parámetros son relativos al contexto de construcción (la carpeta donde se encuentra </p>
-<p><code>Dockerfile</code></p>
-<p>):  </p>
-<ul>
-<li>`` se encuentra en el sistema de archivos fuera del contenedor</li>
-<li>`` se encuentra en el sistema de archivos dentro del contenedor</li>
-<li><code>--from=</code> cuando se especifica el modificador <code>from</code>, <code>COPY</code> busca los ficheros en la imagen referenciada por `` en vez del sistema de archivos del host.</li>
+<li><code>&lt;origen&gt;</code> se encuentra en el sistema de archivos fuera del contenedor</li>
+<li><code>&lt;destino&gt;</code> se encuentra en el sistema de archivos dentro del contenedor</li>
+<li><code>--from=</code> cuando se especifica el modificador <code>from</code>, <code>COPY</code> busca los ficheros en la imagen referenciada por <code>&lt;fase&gt;</code> en vez del sistema de archivos del host.</li>
 </ul>
 </li>
 </ul>
+<p>Ejemplo.-</p>
+<pre><code class="dockerfile"># Imagen base
+FROM node:alpine
+
+# Carpeta de trabajo
+WORKDIR /usr/app
+
+# Copiado de archivos
+COPY ./ ./
+
+# Instalación de dependencias
+RUN npm install
+
+# Comando por defecto del contenedor
+CMD [&quot;npm&quot;, &quot;start&quot;]
+</code></pre>
               
             </div>
           </div>

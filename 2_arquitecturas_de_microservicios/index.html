@@ -141,7 +141,7 @@
 <li>Es importante mantener la <strong>calidad de los servicios</strong>; deben estar <strong>bien testados</strong>. Un servicio con continuas regresiones puede afectar a la calidad final  percibida por el resto de servicios que hacen uso de él.</li>
 </ul>
 <h2 id="22-microservicios">2.2 Microservicios</h2>
-<p>Teniendo en cuenta estos principios, el concepto de microservicios es un poco la manera que se ha puesto de moda para referirse a las  arquitecturas SOA, pero incidiendo más aún en que <strong>la funcionalidad de dichos servicios debe ser la mínima posible</strong>. Una medida bastante extendida es que un microservicio es un componente  que <strong>debería ser desarrollable en unas dos semanas</strong>.</p>
+<p>Teniendo en cuenta estos principios, el concepto de microservicios es un poco la manera que se ha puesto de moda para referirse a las  arquitecturas SOA, pero incidiendo más aún en que <strong>la funcionalidad de dichos servicios debe ser la mínima posible</strong>. Una medida bastante extendida es que un microservicio es un componente que <strong>debería ser desarrollable en unas dos semanas</strong>.</p>
 <p>Las ventajas de una arquitectura basada en microservicios son las siguientes: </p>
 <ul>
 <li>Son <strong>componentes pequeños</strong> que agilizan los procesos de desarrollo de  software y son <strong>fáciles de abordar</strong> por un equipo de desarrolladores.</li>
@@ -152,19 +152,19 @@
 </ul>
 <h2 id="23-relacion-entre-docker-y-microservicios">2.3 Relación entre Docker y Microservicios</h2>
 <ul>
-<li>El <strong>despliegue</strong> de un microservicio suele ser es más sencillo que el de una aplicación monolítica debido a su mayor sencillez y sus menores dependencias. </li>
+<li>El <strong>despliegue</strong> de un microservicio suele ser más sencillo que el de una aplicación monolítica debido a su mayor sencillez y sus menores dependencias. </li>
 <li>Por otra parte, los microservicios <strong>agilizan los procesos de desarrollo del software</strong> permitiendo casos de uso donde podemos hacer varios despliegues de distintos microservicios al día.</li>
 </ul>
 <p>Es por tanto casi <strong>imposible concebir</strong> una arquitectura basada en <strong>microservicios</strong> <strong>sin la automatización</strong> de los procesos de integración y <strong>despliegue continuo</strong>.
-- Ésta es la principal relación entre Docker y los microservicios ya que  <strong>Docker es una herramienta excepcional para la automatización</strong> de estas  tareas. Docker simplifica la automatización de construir una imagen,  distribuirla y ejecutarla en cualquier máquina independientemente de la infraestructura. Esto significa que podemos construir una imagen en nuestros entornos de integración continua, correr nuestras pruebas contra ella, distribuirla en nuestro servidores de producción y por  último, ejecutarla en un contenedor. Y todo esto ejecutando simplemente  unos cuantos comandos de docker. </p>
+- Ésta es la principal relación entre Docker y los microservicios ya que  <strong>Docker es una herramienta excepcional para la automatización</strong> de estas  tareas. Docker simplifica la automatización de construir una imagen,  distribuirla y ejecutarla en cualquier máquina independientemente de la infraestructura. Esto significa que podemos construir una imagen en nuestros entornos de integración continua, correr nuestras pruebas contra ella, distribuirla en nuestro servidores de producción y por  último, ejecutarla en un contenedor. Y todo esto ejecutando simplemente unos cuantos comandos de docker. </p>
 <p>Dicho esto, <strong>una arquitectura de microservicios es sólo un modelo de desarrollo de software</strong> que mal aplicado puede traer enormes quebraderos  de cabeza.</p>
 <ul>
-<li>Los microservicios adquieren más importancia cuando tenemos <strong>equipos de ingeniería muy grandes</strong>, que interesa dividir en subgrupos y  cada uno de ellos se encargue de uno (o unos pocos) microservicios.</li>
+<li>Los microservicios adquieren más importancia cuando tenemos <strong>equipos de ingeniería muy grandes</strong>, que interesa dividir en subgrupos y que cada uno de ellos se encargue de uno (o unos pocos) microservicios.</li>
 <li>Además, el proceso de <strong>migrar</strong> una arquitectura monolítica a una  arquitectura basada en microservicios debe ser planeado con cautela.</li>
-<li>Se  recomienda transferir un trozo de lógica a un sólo microservicio a la vez, ya que una arquitectura basada en microservicios puede implicar un cambio de las herramientas utilizadas para el despliegue, monitoreo y sistemas de logging de nuestras aplicaciones.</li>
+<li>Se recomienda transferir un trozo de lógica a un sólo microservicio a la vez, ya que una arquitectura basada en microservicios puede implicar un cambio de las herramientas utilizadas para el despliegue, monitoreo y sistemas de logging de nuestras aplicaciones.</li>
 </ul>
-<p><em>Nos gustaría destacar que <strong>Docker se adapta</strong> perfectamente a una arquitectura basada en <strong>microservicios</strong>, pero sería <strong>posible tener una arquitectura basada en microservicios sin usar contenedor</strong>, y por supuesto, es perfectamente <strong>posible usar Docker en una arquitectura más monolítica o no basada en microservicios</strong>.</em></p>
-<p>Imaginemos el caso de una <strong>aplicación legacy monolítica</strong>. Solo por el hecho de meter esta aplicación dentro de un contenedor, tal y como es, sin cambios en su código fuente, nos vamos a favorecer de muchas de las características de docker, como son:</p>
+<p><em>A destacar que <strong>Docker se adapta</strong> perfectamente a una arquitectura basada en <strong>microservicios</strong>, pero sería <strong>posible tener una arquitectura basada en microservicios sin usar contenedores</strong>, y por supuesto, es perfectamente <strong>posible usar Docker en una arquitectura más monolítica o no basada en microservicios</strong>.</em></p>
+<p>Imaginemos el caso de una <strong>aplicación legacy monolítica</strong> (aplicación <em>heredada</em> que se ha quedado anticuada pero que se sigue utilizando y no se quiere o no se puede reemplazar/actualizar de forma sencilla). Solo por el hecho de meter esta aplicación dentro de un contenedor, tal y como es, sin cambios en su código fuente, nos vamos a favorecer de muchas de las características de docker, como son:</p>
 <ul>
 <li>Facilidad de <strong>levantar</strong> entornos locales de desarrollo</li>
 <li><strong>Portabilidad</strong> para correr nuestro contenedor en un Mac, en un Ubuntu, en integración continua o en un servidor de producción</li>
@@ -193,7 +193,7 @@
 <li>Parte derecha</li>
 <li>Más  tarde, podemos <strong>separar cada proceso en su propio microservicio</strong>, que sería la parte de la derecha, donde cada proceso corre en un contenedor independiente.</li>
 </ul>
-<p>Lo que se quiere destacar es que la fase de <strong>dockerizar</strong>, aunque luego no se adopte una arquitectura de microservicios, <strong>es de enorme valor en sí mismo</strong>. También que <strong>saltarse este paso</strong> y tratar de pasar de la arquitectura de la derecha a la de la izquierda en un solo paso suele ser una <strong>garantía para buscar problemas</strong>. </p>
+<p>Lo que se quiere destacar es que la fase de <strong>dockerizar</strong>, aunque luego no se adopte una arquitectura de microservicios, <strong>es de enorme valor en sí mismo</strong>. También que <strong>saltarse este paso</strong> y tratar de pasar de la arquitectura de la derecha a la de la izquierda en un solo paso suele ser una <strong>garantía para buscar problemas</strong>.</p>
               
             </div>
           </div>
