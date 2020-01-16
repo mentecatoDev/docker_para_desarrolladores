@@ -6,11 +6,6 @@ typora-root-url: 2_arquitecturas_de_microservicios
 
  El concepto de microservicios tiene sus orígenes en la **arquitectura SOA**  (Service Oriented Architecture). SOA se basa en el antiguo principio de  “**divide y vencerás**”, y sostiene un **modelo distribuido** para el desarrollo de aplicaciones frente a soluciones clásicas más monolíticas. Es muy difícil pensar en Microservicios y no tener asociada la idea de Contenedores, si bien, la relación no se produce también extrictamente a la inversa; existen casos de uso de Contenedores perfectamente operativos que carecen de la arquitectura de microservicios.
 
-- Contenidos
-  - Arquitecturas SOA
-  - Microservicios: definición
-  - Relación entre Docker y Microservicios
-
 ## 2.1 Arquitecturas SOA
 
 Una arquitectura basada en SOA debe seguir una serie de **principios** para ser exitosa. Estos principios son: 
